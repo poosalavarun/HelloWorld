@@ -3,6 +3,14 @@ run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on: 
   push:
     branches: [ "master" ]
+  workflow_dispatch:
+    inputs:
+      param1:
+        description: 'enter param1'
+        required: true
+      param2:
+        description: 'enter param2'
+        required: false
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
@@ -14,11 +22,11 @@ jobs:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
       - run: echo "Environment Variable test value is ${{vars.TESTVARIABLE1}}"
-      - name: Testing username of Production environment
+      - name: Testing username of Dev environment
         if: ${{env.usernameprod == 'admin'}}
         run: echo "username matched"
         shell: bash
-      - name: Testing password of Production environment
+      - name: Testing password of Dev environment
         if: ${{env.passwordprod == 'welcome@123'}}
         run: echo "Password matched"
         shell: bash
