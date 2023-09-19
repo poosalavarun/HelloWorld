@@ -5,6 +5,7 @@ on:
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
+    environment: development
     env:
       usernameprod: ${{ secrets.USERNAME }}
       passwordprod: ${{ secrets.PASSWORD }}
