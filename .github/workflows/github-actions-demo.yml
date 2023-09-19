@@ -1,6 +1,9 @@
 name: GitHub Actions Demo
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
-on:
+on: 
+  push:
+    branches:
+      - main
   workflow_dispatch:
     inputs:
       param1:
@@ -9,8 +12,6 @@ on:
       param2:
         description: 'enter param2'
         required: false
-  push:
-    branches: [ "dev" ]
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
