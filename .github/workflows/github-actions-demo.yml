@@ -4,13 +4,7 @@ on:
   push:
     branches: [ "master" ]
   workflow_dispatch:
-    inputs:
-      param1:
-        description: 'enter param1'
-        required: true
-      param2:
-        description: 'enter param2'
-        required: false
+  
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
