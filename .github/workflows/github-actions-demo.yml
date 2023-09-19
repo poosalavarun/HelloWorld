@@ -5,9 +5,22 @@ on:
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
+    environment: development
+    env:
+      usernameprod: ${{ secrets.USERNAME }}
+      passwordprod: ${{ secrets.PASSWORD }}
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+      - run: echo "$Environment Variable test value is {{vars.TESTVARIABLE1}}"
+      - name: Testing username of Production environment
+        if: ${{env.usernameprod == 'admin'}}
+        run: echo "username matched"
+        shell: bash
+      - name: Testing password of Production environment
+        if: ${{env.passwordprod == 'welcome@123'}}
+        run: echo "Password matched"
+        shell: bash
       - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
       - name: Check out repository code
         uses: actions/checkout@v3
