@@ -12,7 +12,7 @@ jobs:
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-      - run: echo "$Environment Variable test value is {{vars.TESTVARIABLE1}}"
+      - run: echo "Environment Variable test value is ${{vars.TESTVARIABLE1}}"
       - name: Testing username of Production environment
         if: ${{env.usernameprod == 'admin'}}
         run: echo "username matched"
