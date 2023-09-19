@@ -18,7 +18,7 @@ jobs:
         run: echo "username matched"
         shell: bash
       - name: Testing password of Production environment
-        if: ${{env.passwordprod == 'welcome@321'}}
+        if: ${{env.passwordprod == 'welcome'}}
         run: echo "Password matched"
         shell: bash
       - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
