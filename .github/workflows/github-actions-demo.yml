@@ -14,7 +14,7 @@ on:
 jobs:
   Explore-GitHub-Actions:
     environment: development
-    runs-on: ${{vars.RUNNER}}
+    runs-on: ubuntu-latest
     env:
       usernameprod: ${{ secrets.USERNAME }}
       passwordprod: ${{ secrets.PASSWORD }}
