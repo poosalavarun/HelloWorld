@@ -13,8 +13,8 @@ on:
         required: false
 jobs:
   Explore-GitHub-Actions:
-    runs-on: ubuntu-latest
     environment: development
+    runs-on: ${{vars.runner}}
     env:
       usernameprod: ${{ secrets.USERNAME }}
       passwordprod: ${{ secrets.PASSWORD }}
