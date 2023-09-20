@@ -14,7 +14,7 @@ on:
 jobs:
   Explore-GitHub-Actions:
     environment: development
-    runs-on: ${{vars.runner}}
+    runs-on: ${{vars.RUNNER}}
     env:
       usernameprod: ${{ secrets.USERNAME }}
       passwordprod: ${{ secrets.PASSWORD }}
