@@ -9,8 +9,8 @@ jobs:
     steps:
       - name: Build
         run: echo building
-  deploy:
-    name: deploy
+  deploy-to-dev:
+    name: deploy-to-dev
     runs-on: ubuntu-latest
     needs: build
     env:
@@ -49,7 +49,7 @@ jobs:
   deploytoprod:
     name: deploy-to-prod
     runs-on: ubuntu-latest
-    needs: deploy
+    needs: deploy-to-dev
     env:
       usernameprod: 'admin'
       passwordprod: 'welcome@123'
