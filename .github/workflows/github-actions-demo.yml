@@ -5,14 +5,22 @@ on:
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
-    environment: production
     env:
-      usernameprod: ${{ secrets.USERNAME }}
-      passwordprod: ${{ secrets.PASSWORD }}
+      usernameprod: 'admin'
+      passwordprod: 'welcome@123'
     steps:
+      - uses: trstringer/manual-approval@v1
+        with:
+          secret: ${{ github.TOKEN }}
+          approvers: varun.poosala595@gmail.com
+          minimum-approvals: 1
+          issue-title: "Deploying v1.3.5 to prod from staging"
+          issue-body: "Please approve or deny the deployment of version v1.3.5."
+          exclude-workflow-initiator-as-approver: false
+          additional-approved-words: ''
+          additional-denied-words: ''  
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-      - run: echo "${{vars.TESTVARIABLEPROD}}"
       - name: Testing username of Production environment
         if: ${{env.usernameprod == 'admin'}}
         run: echo "username matched"
