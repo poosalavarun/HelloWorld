@@ -46,3 +46,22 @@ jobs:
         run: |
           ls ${{ github.workspace }}
       - run: echo "🍏 This job's status is ${{ job.status }}."
+  deploytoprod:
+    name: deploy-to-prod
+    runs-on: ubuntu-latest
+    needs: deploy
+    env:
+      usernameprod: 'admin'
+      passwordprod: 'welcome@123'
+    steps:
+      - uses: trstringer/manual-approval@v1
+        with:
+          secret: ${{ github.TOKEN }}
+          approvers: poosalavarun
+          minimum-approvals: 1
+          issue-title: "Deploying v1.3.5 to prod from staging"
+          issue-body: "Please approve or deny the deployment of version v1.3.5."
+          exclude-workflow-initiator-as-approver: false
+          additional-approved-words: ''
+          additional-denied-words: ''  
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
