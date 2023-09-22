@@ -8,18 +8,18 @@ on:
 env:
   Code-Repository: 'SphereTechSol/sb'
   Code-Reference: 'saas-devops-latest'
-  EmailSender_Scriptpath_Dev: './connector-scripts/DeployEmailSender.ps1'
-  EmailSender_Scriptpath_Staging: './connector-scripts/DeployEmailSender_stag.ps1'
+  EmailSender_Deployment_Scriptpath: './connector-scripts/DeployEmailSender.ps1'
+  Approvers_list: 'Hemavathi-Elangovan_Sphere'
+  EmailSender_ArtifactName: 'EmailSender'
+  EmailSender_ArtifactPath: './EmailSender.zip'
   
 jobs:
   DownloadArtifact-EmailSender:
     runs-on:
       group: Windows-Azure
-   #if: github.event.workflow_run.conclusion == 'success'
+    if: github.event.workflow_run.conclusion == 'success'
      
     env:
-      EmailSender_ArtifactName: 'EmailSender'
-      EmailSender_ArtifactPath: './EmailSender.zip'
       EmailSender_JfrogDownloadPath: 'sphere-generic-local/6.5.1.0-saas-release/connectors/EmailSender/'
       azPSVersion: 'Latest'  # Provide the desired version here
       
@@ -63,7 +63,7 @@ jobs:
         - uses: trstringer/manual-approval@v1
           with:
             secret: ${{ github.TOKEN }}
-            approvers: Hemavathi-Elangovan_Sphere
+            approvers: ${{ env.Approvers_list }}
             minimum-approvals: 1
             issue-title: "Deploying artifact to Dev"
             issue-body: "Please approve or deny the deployment"
@@ -94,7 +94,7 @@ jobs:
      
 
               # Execute script on the target VM
-              Invoke-Command -Session $session -FilePath ${{ env.EmailSender_Scriptpath_Dev }}
+              Invoke-Command -Session $session -FilePath ${{ env.EmailSender_Deployment_Scriptpath }}
             azPSVersion: ${{ env.azPSVersion }}
   Deploy-EmailSender-To-Staging:
       runs-on:
@@ -104,7 +104,7 @@ jobs:
         - uses: trstringer/manual-approval@v1
           with:
             secret: ${{ github.TOKEN }}
-            approvers: Hemavathi-Elangovan_Sphere
+            approvers: ${{ env.Approvers_list }}
             minimum-approvals: 1
             issue-title: "Deploying artifact to Dev"
             issue-body: "Please approve or deny the deployment"
@@ -126,11 +126,11 @@ jobs:
               $credential = New-Object System.Management.Automation.PSCredential ('${{ secrets.VM_USERNAME }}', $vmpassword)
               $Session = New-PSSession -ComputerName '${{ secrets.VM_HOSTNAME }}' -Credential $credential -Authentication Negotiate
               # Copy artifact to target VM
-              $sourcePath = './EmailSender/EmailSender.zip' 
+              $sourcePath = './${{ env.EmailSender_ArtifactName }}/{{env.EmailSender_ArtifactPath}}' 
               $destinationPath = 'C:\Artifacts\EmailSender.zip'
               Copy-Item -Path $sourcePath -Destination $destinationPath -ToSession $session
      
 
               # Execute script on the target VM
-              Invoke-Command -Session $session -FilePath ${{ env.EmailSender_Scriptpath_Staging }}
+              Invoke-Command -Session $session -FilePath ${{ env.EmailSender_Deployment_Scriptpath }}
             azPSVersion: ${{ env.azPSVersion }}
