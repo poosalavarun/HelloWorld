@@ -6,6 +6,8 @@ on:
      types: [requested]
      branches: [saas-devops-azuread]
 env:
+  Code-Repository: 'SphereTechSol/sb'
+  Code-Reference: 'saas-devops-latest'
   EmailSender_Scriptpath_Dev: './connector-scripts/DeployEmailSender.ps1'
   EmailSender_Scriptpath_Staging: './connector-scripts/DeployEmailSender_stag.ps1'
   
@@ -17,6 +19,7 @@ jobs:
      
     env:
       EmailSender_ArtifactName: 'EmailSender'
+      EmailSender_ArtifactPath: './EmailSender.zip'
       EmailSender_JfrogDownloadPath: 'sphere-generic-local/6.5.1.0-saas-release/connectors/EmailSender/'
       azPSVersion: 'Latest'  # Provide the desired version here
       
@@ -25,8 +28,8 @@ jobs:
     - name: Fetch Sources
       uses: actions/checkout@v3
       with:
-          repository: SphereTechSol/sb
-          ref: saas-devops-latest
+          repository:  ${{ env.Code-Repository  }}
+          ref: ${{ env.Code-Reference  }}
           
     - name: Create artifact directory
       run: |
@@ -50,7 +53,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
           name: ${{ env.EmailSender_ArtifactName }}
-          path: './EmailSender/EmailSender.zip' 
+          path: './${{ env.EmailSender_ArtifactName }}/{{env.EmailSender_ArtifactPath}}' 
           
   Deploy-EmailSender-To-Dev:
       runs-on:
@@ -85,7 +88,7 @@ jobs:
               $credential = New-Object System.Management.Automation.PSCredential ('${{ secrets.VM_USERNAME }}', $vmpassword)
               $Session = New-PSSession -ComputerName '${{ secrets.VM_HOSTNAME }}' -Credential $credential -Authentication Negotiate
               # Copy artifact to target VM
-              $sourcePath = './EmailSender/EmailSender.zip' 
+              $sourcePath = './${{ env.EmailSender_ArtifactName }}/{{env.EmailSender_ArtifactPath}}' 
               $destinationPath = 'C:\Artifacts\EmailSender.zip'
               Copy-Item -Path $sourcePath -Destination $destinationPath -ToSession $session
      
