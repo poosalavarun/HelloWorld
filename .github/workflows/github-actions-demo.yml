@@ -38,8 +38,9 @@ jobs:
       - run: echo "🍏 This job's status is ${{ job.status }}."
   deploytoprod:
     name: deploy-to-prod
-    environment: development
+    environment: production
     runs-on: ubuntu-latest
+    needs: deploy-to-dev
     env:
       usernameprod: 'admin'
       passwordprod: 'welcome@123'
