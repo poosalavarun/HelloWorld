@@ -2,10 +2,6 @@ name: Deploy-EmailSender
 
 on:
   workflow_dispatch:
-  workflow_run:
-     workflows: [Build-EmailSender]
-     types: [requested]
-     branches: [saas-devops-azuread]
 env:
   EmailSender_Scriptpath_Dev: './connector-scripts/DeployEmailSender.ps1'
   EmailSender_Scriptpath_Staging: './connector-scripts/DeployEmailSender_stag.ps1'
