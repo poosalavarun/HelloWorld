@@ -13,7 +13,7 @@ jobs:
   DownloadArtifact-EmailSender:
     runs-on:
       group: Windows-Azure
-    if: github.event.workflow_run.conclusion == 'success'
+   #if: github.event.workflow_run.conclusion == 'success'
      
     env:
       EmailSender_ProjectPath: './EmailSenders.sln'
