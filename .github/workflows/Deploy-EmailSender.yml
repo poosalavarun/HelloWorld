@@ -16,11 +16,8 @@ jobs:
    #if: github.event.workflow_run.conclusion == 'success'
      
     env:
-      EmailSender_ProjectPath: './EmailSenders.sln'
-      EmailSender_Configuration: 'Release'
       EmailSender_ArtifactName: 'EmailSender'
-      #EmailSender_ArtifactPath: './bin/EmailSender'
-      EmailSender_ArtifactPath: 'sphere-generic-local/6.5.1.0-saas-release/connectors/EmailSender/'
+      EmailSender_JfrogDownloadPath: 'sphere-generic-local/6.5.1.0-saas-release/connectors/EmailSender/'
       azPSVersion: 'Latest'  # Provide the desired version here
       
     steps:
@@ -46,9 +43,7 @@ jobs:
 
     - name: download from Artifactory
       run: |
-        jf rt dl ${{ env.EmailSender_ArtifactPath}} ./EmailSender/ --sort-by=created --sort-order=desc --limit=1 --insecure-tls --url https://artifacts.sphere-dev.com/artifactory --access-token cmVmdGtuOjAxOjE3MjQ0MjY4ODY6MkdnbFVlZUM2cHhQSWdKQ1duQUk3TnBva05a
-        Get-ChildItem -Path './EmailSender/' -Directory -Recurse
-        Get-ChildItem -Path './EmailSender/' -File -Recurse
+        jf rt dl ${{ env.EmailSender_JfrogDownloadPath}} ./EmailSender/ --sort-by=created --sort-order=desc --limit=1 --insecure-tls --url https://artifacts.sphere-dev.com/artifactory --access-token cmVmdGtuOjAxOjE3MjQ0MjY4ODY6MkdnbFVlZUM2cHhQSWdKQ1duQUk3TnBva05a
         Get-ChildItem -File -Path './EmailSender/6.5.1.0-saas-release/connectors/EmailSender/' -Filter *.zip -Recurse | ForEach-Object { Copy-Item -Path $_.FullName -Destination ./EmailSender/ }
 
     - name: Drop Artifact
@@ -77,7 +72,10 @@ jobs:
           with:
               creds: ${{ secrets.AZURE_CREDENTIALS }}
               enable-AzPSSession: true 
-              
+        - name: Download a single artifact
+          uses: actions/download-artifact@v3
+          with:
+            name: ${{ env.EmailSender_ArtifactName }}
         - name: Run Azure PowerShell script
           uses: azure/powershell@v1
           with:
