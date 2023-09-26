@@ -2,7 +2,7 @@ name: GitHub-actions-dev
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on: 
   push:
-    branches: [ "dev" ]
+    branches: [ "dev1" ]
   workflow_dispatch:
     inputs:
       param1:
