@@ -1,5 +1,4 @@
-name: GitHub-Actions-main
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+name: Test-github-actions-main
 on:
   workflow_dispatch:
   push:
