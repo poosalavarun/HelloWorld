@@ -5,7 +5,7 @@ on:
     branches:
        - main
     paths:
-       - './HelloWorld.java'
+       - 'HelloWorld.java'
 jobs:
   build:
     name: build
