@@ -49,7 +49,7 @@ jobs:
     steps: 
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       - name: Testing secrets of prod environment
-        if: ${{secrets.USERNAME == 'admin'}}
+        if: ${{ secrets.USERNAME }} == 'admin'
         run: echo "username matched"
         shell: bash
       - name: checking variables from Global Environment and local environment
