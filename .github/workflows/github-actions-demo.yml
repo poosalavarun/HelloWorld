@@ -22,11 +22,11 @@ jobs:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
       - name: Testing username of dev environment
-        if: ${{secrets.USERNAME == 'dev'}}
+        if: ${{ secrets.USERNAME }} == 'dev'
         run: echo "username matched"
         shell: bash
       - name: Testing password of dev environment
-        if: ${{secrets.PASSWORD == 'welcome'}}
+        if: ${{ secrets.PASSWORD }} == 'welcome'
         run: echo "Password matched"
         shell: bash
       - run: echo "The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
